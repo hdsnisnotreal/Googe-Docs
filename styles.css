@@ -1,48 +1,60 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
 }
 
-header {
-    background-color: #007BFF;
-    color: #fff;
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
     text-align: center;
-    padding: 10px;
 }
 
-#app {
+.notes-container {
     display: flex;
     justify-content: space-between;
-    margin: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
-#notes-container, #editor {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 20px;
-    flex: 1;
-    margin: 10px;
+.notes-list {
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    height: 300px;
+    overflow-y: auto;
 }
 
-#notes-list {
-    list-style: none;
-    padding: 0;
+.notes-editor {
+    width: 35%;
 }
 
-#note-input {
+textarea {
     width: 100%;
-    height: 100px;
+    height: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    resize: none;
     margin-bottom: 10px;
 }
 
-#update-container {
-    background-color: #007BFF;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
+button {
+    display: block;
     width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
