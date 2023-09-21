@@ -1,55 +1,51 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const notesList = document.getElementById('notes-list');
-    const noteInput = document.getElementById('note-input');
-    const saveButton = document.getElementById('save-button');
-    const updateMessage = document.getElementById('update-message');
-    
-    // Load saved notes from local storage
-    const savedNotes = JSON.parse(localStorage.getItem('notes')) || [];
+document.addEventListener("DOMContentLoaded", function () {
+    const notesList = document.getElementById("notes-list");
+    const noteEditor = document.getElementById("note-editor");
+    const saveButton = document.getElementById("save-button");
+    const deleteButton = document.getElementById("delete-button");
 
-    // Display saved notes
-    function displayNotes() {
-        notesList.innerHTML = '';
+    // Load saved notes from local storage
+    const savedNotes = JSON.parse(localStorage.getItem("notes")) || [];
+
+    // Render saved notes
+    function renderNotes() {
+        notesList.innerHTML = "";
         savedNotes.forEach((note, index) => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-                <span>${note}</span>
-                <button class="delete-button" data-index="${index}">Delete</button>
-            `;
-            notesList.appendChild(listItem);
+            const noteItem = document.createElement("div");
+            noteItem.classList.add("note-item");
+            noteItem.textContent = note;
+            noteItem.addEventListener("click", () => selectNote(index));
+            notesList.appendChild(noteItem);
         });
     }
 
-    // Save a new note
-    saveButton.addEventListener('click', function () {
-        const noteText = noteInput.value.trim();
-        if (noteText !== '') {
+    // Select a note for editing
+    function selectNote(index) {
+        noteEditor.value = savedNotes[index];
+    }
+
+    // Save a note
+    saveButton.addEventListener("click", () => {
+        const noteText = noteEditor.value.trim();
+        if (noteText !== "") {
             savedNotes.push(noteText);
-            localStorage.setItem('notes', JSON.stringify(savedNotes));
-            noteInput.value = '';
-            displayNotes();
+            localStorage.setItem("notes", JSON.stringify(savedNotes));
+            renderNotes();
+            noteEditor.value = "";
         }
     });
 
     // Delete a note
-    notesList.addEventListener('click', function (event) {
-        if (event.target.classList.contains('delete-button')) {
-            const index = event.target.getAttribute('data-index');
-            savedNotes.splice(index, 1);
-            localStorage.setItem('notes', JSON.stringify(savedNotes));
-            displayNotes();
+    deleteButton.addEventListener("click", () => {
+        const selectedNoteIndex = savedNotes.indexOf(noteEditor.value);
+        if (selectedNoteIndex !== -1) {
+            savedNotes.splice(selectedNoteIndex, 1);
+            localStorage.setItem("notes", JSON.stringify(savedNotes));
+            renderNotes();
+            noteEditor.value = "";
         }
     });
 
-    // Display update message
-    function displayUpdateMessage() {
-        updateMessage.textContent = 'Site updated!';
-        setTimeout(() => {
-            updateMessage.textContent = 'No updates yet.';
-        }, 5000);
-    }
-
-    // Initially display notes and set up update message
-    displayNotes();
-    displayUpdateMessage();
+    // Initial rendering
+    renderNotes();
 });
